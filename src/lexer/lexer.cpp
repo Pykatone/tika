@@ -191,3 +191,6 @@ int main()
     }
     return 0;
 }
+// TO DO 
+
+// Rewrite and understand lexer
