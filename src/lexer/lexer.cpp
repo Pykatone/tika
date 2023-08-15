@@ -1,196 +1,236 @@
-#include <iostream>
-class Token {
-public:
-    enum class Kind {
-        Number,
-        Identifier,
-        LeftParen,
-        RightParen,
-        LeftSquare,
-        RightSquare,
-        LeftCurly,
-        RightCurly,
-        LessThan,
-        GreaterThan,
-        Equal,
-        Plus,
-        Minus,
-        Asterisk,
-        Slash,
-        Hash,
-        Dot,
-        Comma,
-        Colon,
-        Semicolon,
-        SingleQuote,
-        DoubleQuote,
-        Comment,
-        Pipe,
-        End,
-        Unexpected,
-    };
-    Token(Kind kind) noexcept : m_kind{ kind } {}
-private:
-    Kind m_kind{};
+﻿#include <iostream>
+#include <regex>
+
+enum TokenType
+{
+    PLUS,
+    MINUS,
+    MULTIPLY,
+    DIVIDE,
+    MODULO,
+    LPAREN,
+    SPACE,
+    NUMBER,
+    IDENTIFIER,
+    RPAREN,
+    HASHTAG,
+    SEMICOLON,
+    LESSTHAN,
+    GREATERTHAN,
+    EQUAL,
+    COMMENT,
+    SLASH,
+    SINGLEQUOTE,
+    DOUBLEQUOTE,
+    COMMA,
+    DOT,
+    COLON,
+    LCURLY,
+    RCURLY,
+    LSQUARE,
+    RSQUARE,
+    END_OF_FILE
 };
-const static char* PRINTABLE_TYPES[] = {
-        "Number",
-        "Identifier",
-        "LeftParen",
-        "RightParen",
-        "LeftSquare",
-        "RightSquare",
-        "LeftCurly",
-        "RightCurly",
-        "LessThan",
-        "GraterThan",
-        "Equal",
-        "Plus",
-        "Minus",
-        "Asterisk",
-        "Slash",
-        "Hash",
-        "Dot",
-        "Comma",
-        "Colon",
-        "Semicolon",
-        "SingleQuote",
-        "DoubleQuote",
-        "Comment",
-        "Pipe",
-        "End",
-        "Unexpected"
+struct Token
+{
+    TokenType type;
+    std::string value;
 };
 
+const char* tokens[]{ "PLUS" , "MINUS", "MULTIPLY", "DIVIDE","MODULO", "LPAREN", "SPACE", "NUMBER",
+                      "IDENTIFIER", "RPAREN","HASHTAG","SEMICOLON","LESSTHAN","GREATERTHAN",
+                      "EQUAL","COMMENT","SLASH","SINGLEQUOTE","DOUBLEQUOTE","COMMA","DOT",
+                      "COLON","LCURLY","RCURLY","LSQUARE","RSQUARE", "END_OF_FILE"};
 class Lexer
 {
 public:
-    Token static atom(Token::Kind) noexcept;
-    Token static number() noexcept;
-    Token static identifier() noexcept;
-};
-Token Lexer::atom(Token::Kind kind) noexcept { int value = static_cast<int>(kind); std::cout << PRINTABLE_TYPES[value] << "\n"; return kind; }
-Token Lexer::number() noexcept { return atom(Token::Kind::Number); }
-Token Lexer::identifier() noexcept { return atom(Token::Kind::Identifier); }
+    Lexer(const std::string& text) : text(text), pos(0) {}
+    Token getNextToken()
+    {
+        if (pos >= text.length())
+        {
+            return { END_OF_FILE, "" };
+        }
+        char currentChar = text[pos];
+        if (isdigit(currentChar))
+        {
+            return isDigit();
+        }
 
-Token next(char c)
-{
-    switch (c) {
-    case 'a':
-    case 'b':
-    case 'c':
-    case 'd':
-    case 'e':
-    case 'f':
-    case 'g':
-    case 'h':
-    case 'i':
-    case 'j':
-    case 'k':
-    case 'l':
-    case 'm':
-    case 'n':
-    case 'o':
-    case 'p':
-    case 'q':
-    case 'r':
-    case 's':
-    case 't':
-    case 'u':
-    case 'v':
-    case 'w':
-    case 'x':
-    case 'y':
-    case 'z':
-    case 'A':
-    case 'B':
-    case 'C':
-    case 'D':
-    case 'E':
-    case 'F':
-    case 'G':
-    case 'H':
-    case 'I':
-    case 'J':
-    case 'K':
-    case 'L':
-    case 'M':
-    case 'N':
-    case 'O':
-    case 'P':
-    case 'Q':
-    case 'R':
-    case 'S':
-    case 'T':
-    case 'U':
-    case 'V':
-    case 'W':
-    case 'X':
-    case 'Y':
-    case 'Z':
-        return Lexer::identifier();
-    case '0':
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-        return Lexer::number();
-    case '(':
-        return Lexer::atom(Token::Kind::LeftParen);
-    case ')':
-        return Lexer::atom(Token::Kind::RightParen);
-    case '[':
-        return Lexer::atom(Token::Kind::LeftSquare);
-    case ']':
-        return Lexer::atom(Token::Kind::RightSquare);
-    case '{':
-        return Lexer::atom(Token::Kind::LeftCurly);
-    case '}':
-        return Lexer::atom(Token::Kind::RightCurly);
-    case '<':
-        return Lexer::atom(Token::Kind::LessThan);
-    case '>':
-        return Lexer::atom(Token::Kind::GreaterThan);
-    case '=':
-        return Lexer::atom(Token::Kind::Equal);
-    case '+':
-        return Lexer::atom(Token::Kind::Plus);
-    case '-':
-        return Lexer::atom(Token::Kind::Minus);
-    case '*':
-        return Lexer::atom(Token::Kind::Asterisk);
-    case '#':
-        return Lexer::atom(Token::Kind::Hash);
-    case '.':
-        return Lexer::atom(Token::Kind::Dot);
-    case ',':
-        return Lexer::atom(Token::Kind::Comma);
-    case ':':
-        return Lexer::atom(Token::Kind::Colon);
-    case ';':
-        return Lexer::atom(Token::Kind::Semicolon);
-    case '\'':
-        return Lexer::atom(Token::Kind::SingleQuote);
-    case '"':
-        return Lexer::atom(Token::Kind::DoubleQuote);
-    case '|':
-        return Lexer::atom(Token::Kind::Pipe);
+
+        if (isalpha(currentChar))
+        {
+            return isLetter();
+        }
+        switch (currentChar)
+        {
+        case '+':
+            pos++;
+            return { PLUS, "+" };
+            break;
+
+        case '-':
+            pos++;
+            return { MINUS, "-" };
+            break;
+
+        case '/':
+            pos++;
+            return { DIVIDE, "/" };
+            break;
+        case '%':
+            pos++;
+            return { MODULO, "%" };
+            break;
+
+        case '*':
+            pos++;
+            return { MULTIPLY, "*" };
+            break;
+
+        case '(':
+            pos++;
+            return { LPAREN, "(" };
+            break;
+
+        case ')':
+            pos++;
+            return { RPAREN, ")" };
+            break;
+
+        case ' ':
+            pos++;
+            return { SPACE, " " };
+            break;
+        case '\n':
+            pos++;
+            return { SPACE, "\\n" };
+            break;
+        case ';':
+            pos++;
+            return { SEMICOLON, ";" };
+            break;
+        case '<':
+            pos++;
+            return { LESSTHAN, "<" };
+            break;
+        case '>':
+            pos++;
+            return { GREATERTHAN, ">" };
+            break;
+        case '=':
+            pos++;
+            return { EQUAL, "=" };
+            break;
+        case '\'':
+            pos++;
+            return { SINGLEQUOTE, "'" };
+            break;
+        case '"':
+            pos++;
+            return { DOUBLEQUOTE, "\"" };
+            break;
+        case '.':
+            pos++;
+            return { DOT, "." };
+            break;
+        case ',':
+            pos++;
+            return { COMMA, "," };
+            break;
+        case '{':
+            pos++;
+            return { LCURLY, "{" };
+            break;
+        case '}':
+            pos++;
+            return { RCURLY, "}" };
+            break;
+        case ':':
+            pos++;
+            return { COLON, ":" };
+            break;
+        case '[':
+            pos++;
+            return { LSQUARE, "[" };
+            break;
+        case ']':
+            pos++;
+            return { RSQUARE, "]" };
+        case '#':
+            return isComment();
+            break;
+        }
+
     }
-}
+private:
+    Token isDigit()
+    {
+        std::string result = "";
+        while (pos <= text.length() && isdigit(text[pos]))
+        {
+            result += text[pos];
+            pos++;
+        }
+        return { NUMBER, result };
+    }
+    Token isLetter()
+    {
+        std::string result = "";
+        while (pos <= text.length() && isalpha(text[pos]))
+        {
+            result += text[pos];
+            pos++;
+        }
+        return { IDENTIFIER, result };
+    }
+    Token isComment()
+    {
+        std::string result = "";
+        while (pos <= text.length() && text[pos] == '#')
+        {
+            result += text[pos];
+            pos++;
+        }
+        if (result == "##")
+        {
+            result = "";
+            while (pos <= text.length() && text[pos] != '\n')
+            {
+                result += text[pos];
+                pos++;
+            }
+            return { COMMENT, result };
+        };
+        return { HASHTAG, result };
+    }
+    std::string text = "";
+    size_t pos;
+
+};
+
 int main()
 {
-    std::string code("213)||;:#");
-    for (int i = 0; i < code.length(); i++)
+    auto input =
+        "def Fibonacci(n): ## Recursive Function created.\n"
+        "if (n <= 1) : ## If n smaller than 1 returned 1\n"
+        "return 1\n"
+        "else: ## Else n* (n - 1)\n"
+        "return (n * Fibonacci(n - 1))\n"
+        "n = Fibonacci(int(input('Write number of fibonacci : ')))\n"
+        "print(n)";
+
+
+    /*std::regex pattern("\\s+");
+    std::string result = std::regex_replace(input, pattern, "");*/
+    Lexer lexer(input);
+    Token token = lexer.getNextToken();
+    while(token.type != END_OF_FILE) 
     {
-        next(code[i]);
+        if(token.type != SPACE) std::cout << tokens[token.type] << " |" << token.value << "| " << std::endl;
+        token = lexer.getNextToken();
     }
+    
     return 0;
 }
-// TO DO 
 
-// Rewrite and understand lexer
