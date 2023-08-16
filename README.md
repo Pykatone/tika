@@ -9,7 +9,7 @@ It contains the reference compiler, API, and standard library.
 
 [Community](https://github.com/pykatone/tika/wiki)
 
-[![Tika Community](https://dcbadge.vercel.app/api/server/wJyURhhc7r?style=flat)](https://github.com/pykatone/tika)
+[![Tika Community](https://dcbadge.vercel.app/api/server/wJyURhhc7r?style=flat)](https://discord.gg/wJyURhhc7r)
 
 </strong>
 
