@@ -77,7 +77,6 @@ We believe that the success of Tika lies in the power of community collaboration
 - **Documentation:** Improve the project's documentation, including guides, tutorials, and examples.
 - **Testing:** Help identify and fix bugs, and improve test coverage.
 - **Feedback:** Provide feedback on the language design, features, and tools.
-- **Feature Requests:** Suggest new features or enhancements that could make Tika even better.
 
 Before making any contributions, please read our [Contribution Guidelines](CONTRIBUTING.md) for more information.
 
