@@ -66,8 +66,6 @@ Tika is being designed with several key features in mind:
 
 - **Optimization:** Tika aims to provide tools for writing optimized code, allowing developers to create high-performance applications.
 - **Performance:** With a focus on efficiency, Tika strives to achieve fast execution times, making it suitable for resource-intensive tasks.
-- **Multi-Platform Support:** Tika is designed to be versatile, supporting various platforms and architectures to ensure your code runs anywhere.
-- **Game Development:** Tika aims to support game development through libraries and features tailored for game programmers.
 - **Web Development:** Tika aims to simplify back-end web development with intuitive APIs and tools.
 - **Graphic Development Interface:** Tika seeks to provide libraries and interfaces for creating visually rich applications.
 
