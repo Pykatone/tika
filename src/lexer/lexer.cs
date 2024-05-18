@@ -402,7 +402,7 @@ namespace HelloWorld
         static void Main(string[] args)
         {
             string input =
-                "fn merhaba(x,y)?\nint test = 30\nreturn test+30\nstring merhaba = \"test selam not or false merhaba and and and =>\"\nbool merhaba = true;\nfor(int x = 0; x <= 30; x++)\nif(x == test): return true\nprint(\"Sifirdan programlama dili gelistiriyoruz.\")\nx++;\ny+=30\nc %= 2\nif(c % 2 == 0) return true;\nwhile (true): break;";
+                "fn merhaba(x,y){\nint test = 30;\nret test+30}\nstr merhaba = \"test selam not or false merhaba and and and =>\"\nbool merhaba = true;\nfor(int x = 0; x <= 30; x++){break;}\nif(x == test){ return true;}\nwrite(\"Sifirdan programlama dili gelistiriyoruz.\");\nx++;\ny+=30;\nc %= 2;\nif(c % 2 == 0){ return true;}\nwhile (true){ break;}";
             Lexer lexer = new Lexer(input);
             Token token;
             do
